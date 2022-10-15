@@ -53,7 +53,25 @@ pipeline {
       }
     }
 }
-
+    stage ('Cypress Test') {
+      steps {
+        sh '''#!/bin/bash 
+        cd ./cypress_test
+        NO_COLOR=1 npx cypress run --config video=false --spec ./cypress/e2e/test.cy.js
+        '''
+      }
+     }
+     stage ('Email') {
+       steps {          
+      mail(
+            subject: "Jenkins Job Status Report '${env.JOB_NAME}' | Build #'${env.BUILD_NUMBER}'",
+            body: "Check console output at http://34.207.131.116:8080/job/deployment3/job/main/${env.BUILD_NUMBER}/console",
+            to: 'subornadnath@gmail.com'
+          )
+            }
+      }
+  }
+ }
      
      
   }
