@@ -53,14 +53,7 @@ pipeline {
       }
     }
 }
-    stage ('Cypress Test') {
-      steps {
-        sh '''#!/bin/bash 
-        cd ./cypress_test
-        NO_COLOR=1 npx cypress run --config video=false --spec ./cypress/e2e/test.cy.js
-        '''
-      }
-     }
+    
      stage ('Email') {
        steps {          
       mail(
