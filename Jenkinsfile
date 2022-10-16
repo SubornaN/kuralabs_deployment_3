@@ -39,8 +39,8 @@ pipeline {
           exit 0
           fi
           '''
-        }
-        }
+          }
+    }
     stage ('Deploy') {
       agent{label 'awsDeploy'}
       steps {
@@ -50,32 +50,10 @@ pipeline {
         pip install gunicorn
         python3 -m gunicorn -w 4 application:app -b 0.0.0.0 --daemon
         '''
-      }
+          }
+       }
     }
-}
-    stage ('Cypress Test') {
-      agent{label 'awsDeploy2'}
-      steps {
-        sh '''#!/bin/bash 
-        cd ./cypress_test
-        npm install
-        npm install cypress --save-dev
-        NO_COLOR=1 npx cypress run --config video=false --spec ./cypress/e2e/test.cy.js
-        '''
-      }
-     }
-     
-     stage ('Email') {
-       agent{label 'awsDeploy2'}
-       steps {          
-      mail(
-            subject: "Jenkins Job Status Report '${env.JOB_NAME}' | Build #'${env.BUILD_NUMBER}'",
-            body: "Check console output at http://34.207.131.116:8080/job/deployment3/job/main/${env.BUILD_NUMBER}/console",
-            to: 'subornadnath@gmail.com'
-          )
-            }
-      }
-     
+    
   }
  }
 
