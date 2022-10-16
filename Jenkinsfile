@@ -42,7 +42,7 @@ pipeline {
           }
     }
     stage ('Deploy') {
-      
+      agent{label 'awsDeploy'}
       steps {
         keepRunning {
         sh '''#!/bin/bash
